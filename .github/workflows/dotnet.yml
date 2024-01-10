@@ -1,0 +1,37 @@
+name: Build Wow-Dumper
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.X'  # or the version used in your project
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release
+
+      - name: Publish Artifact
+        run: dotnet publish --configuration Release --output publish
+
+      - name: Compress Artifacts
+        run: tar -czvf artifacts.tar.gz publish/
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: compiled-artifacts
+          path: artifacts.tar.gz
