@@ -27,11 +27,10 @@ jobs:
 
     - name: Build and Publish
       run: |
-        dotnet build -c Release
-        dotnet publish -c Release --no-build --output ./publish/Project2 ./Version2/Version2.csproj
+        dotnet build -c Release --no-build --output ./publish/Project2 ./Version2/Version2.csproj
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: ./publish
+        path: ./build
