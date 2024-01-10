@@ -25,13 +25,13 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Publish artifacts
+    - name: Build and Publish
       run: |
-        dotnet publish -c Release -o ${{ github.workspace }}/publish
-        echo "::set-output name=artifacts-path::${{ github.workspace }}/publish"
+        dotnet build -c Release
+        dotnet publish -c Release --no-build --output ./publish/Project1 Project1/Project1.csproj
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: ${{ github.workspace }}/publish
+        path: ./publish
